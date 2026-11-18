@@ -11,6 +11,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,23 @@ ProductoRepo repo;
   public Producto addProducto(@RequestBody Producto producto) {
     return repo.save(producto);
   }
+
+@GetMapping("/producto/{id}")
+public Optional<Producto> getById(@PathVariable Long id) {
+    return repo.findById(id);
+}
+
+@PutMapping("/producto/{id}")
+public Producto putProduct(@PathVariable Long id, @RequestBody Producto producto) {
+    producto.setId(id);
+    return repo.save(producto);
+}
+
+@DeleteMapping("/producto/{id}")
+public String deleteProduct(@PathVariable("id") Long id) {
+    repo.deleteById(id);
+    return "{\"success\":true}";
+}
 
 }
 
